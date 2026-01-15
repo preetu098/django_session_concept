@@ -8,9 +8,12 @@ def set_session(request):
     return HttpResponse("Session has been set")
 
 def get_session(request):
-    username = request.session.get('username')
-    email = request.session.get('email')
-    return HttpResponse(f"Username: {username}, Email: {email}")
+    if('username' not in request.session):
+        return HttpResponse("No session data found")
+    else:
+        username = request.session.get('username')
+        email = request.session.get('email')
+        return HttpResponse(f"Username: {username}, Email: {email}")
 
 def delete_session(request):
     try:
