@@ -2,8 +2,8 @@ from django.shortcuts import render,HttpResponse,redirect
 from .models import UserData
 # Create your views here.
 
-def set_session(request):
-    request.session['username'] = 'Pratibha Rajawat'
+def set_session(request,name):
+    request.session['username'] = name
     request.session['email'] = 'itclassindore@gmail.com'
     return HttpResponse("Session has been set")
 
