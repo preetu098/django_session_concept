@@ -22,3 +22,38 @@ def delete_session(request):
     except KeyError:
         pass
     return HttpResponse("Session data has been deleted")
+
+
+from django.http import HttpResponse
+
+def set_cookies(request):
+    response = HttpResponse("Cookies have been set")
+    # Cookie set with 1 hour expiry, HttpOnly for security
+    response.set_cookie(
+        key='username',
+        value='itclassindore',
+        max_age=3600,       # seconds
+        
+    )
+    return response  # IMPORTANT: yahi response return karo
+
+def get_cookies(request):
+    username = request.COOKIES.get('username')  # safe get
+    if username:
+        return HttpResponse(f"Username from cookies: {username}")
+    else:
+        return HttpResponse("No cookies found")
+
+def delete_cookies(request):
+    response = HttpResponse("Cookies have been deleted")
+    response.delete_cookie('username')
+    return response  # IMPORTANT: yahi response return karo
+
+def visiter_track(request):
+    if 'visits' in request.COOKIES:
+        visits = int(request.COOKIES['visits']) + 1
+    else:
+        visits = 1
+    response = HttpResponse(f"Number of visits: {visits}")
+    response.set_cookie('visits', str(visits), max_age=365*24*60*60)  # 1 year
+    return response
